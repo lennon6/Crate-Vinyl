@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
 
 const MONGO_URI = 'mongodb+srv://lennin6:Knp0sCOsPTxwy06y@cluster0.q5mmhe8.mongodb.net/?retryWrites=true&w=majority';
 
@@ -13,13 +13,10 @@ mongoose.connect(MONGO_URI, {
 
 
 
-// sets a schema for the 'record' collection
+// sets a schema for the favorite 'record' collection
 
-const recordsSchema = new Schema({
-    artist_id: {
-        type: Number,
-        required: true,
-    },
+const favoriteSchema = new Schema({
+    master_id: Number,
     genre: String,
     artist: String,
     release_title: String,
@@ -27,12 +24,20 @@ const recordsSchema = new Schema({
     track: String,
 })
 
-const Records = mongoose.model('Records', recordsSchema);
+const Favorite = mongoose.model('Favorite', favoriteSchema);
 
-console.log('Records', Records)
+// sets a schema for 'review' collection
+const reviewSchema = new Schema({
+    user: String,
+    comment: String
+})
+
+const Review = mongoose.model('Review', reviewSchema);
+
+
 
 module.exports = {
-    Records
+    Favorite,
+    Review
 }
 
-// sets a schema for the 'artist' collection
