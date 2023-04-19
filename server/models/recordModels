@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const MONGO_URI = 'mongodb+srv://lennin6:Knp0sCOsPTxwy06y@cluster0.q5mmhe8.mongodb.net/?retryWrites=true&w=majority';
 
@@ -12,11 +13,13 @@ mongoose.connect(MONGO_URI, {
 
 
 
-const Schema = mongoose.Schema();
-
 // sets a schema for the 'record' collection
 
 const recordsSchema = new Schema({
+    artist_id: {
+        type: Number,
+        required: true,
+    },
     genre: String,
     artist: String,
     release_title: String,
@@ -25,6 +28,8 @@ const recordsSchema = new Schema({
 })
 
 const Records = mongoose.model('Records', recordsSchema);
+
+console.log('Records', Records)
 
 module.exports = {
     Records

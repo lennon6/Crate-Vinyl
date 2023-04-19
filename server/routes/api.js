@@ -1,24 +1,38 @@
-const axios = require('axios');
 const express = require('express');
 const router = express.Router();
+const Record = require('../models/recordModels');
+const recordsControllers = require('../controllers/recordsControllers.js');
 
-// create api router to pull data from discogs
 
-router.get('/search/:query', (req, res) => {
-    axios.get('https://api.discogs.com/database/search', {
-      params: {
-        q: req.params.query,
-        token: 'DkKMJxHxlcAximwbeTLYfvJZKydShQvYWjqsntxS'
-      }
-    })
-    .then(response => {
-        res.send(response.body)
-        console.log(response)
-    })
-    .catch(error => {
-        res.status(500).send(error);
 
-    })
+
+
+router.get('/records', recordsControllers.getRecord, (req, res) => {
+    res.status(200).send(res.locals.recordData)
+});
+
+router.post('/records/:id', recordsControllers.getRecord, recordsControllers.createRecord, (req, res) => {
+    res.statusCode(200).json({})
+})
+
+
+
+router.get('/getAll', (req, res) => {
+    res.send('Get All API')
+})
+
+router.get('/getOne/:id', (req, res) => {
+    res.send('Get by ID API')
+})
+
+router.patch('/update/:id', (req, res) => {
+    res.send('Update by ID API')
+})
+
+router.delete('/delete/:id', (req, res) => { 
+    res.send('Delete by ID API')
 })
 
 module.exports = router;
+
+
