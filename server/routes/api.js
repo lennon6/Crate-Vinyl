@@ -21,8 +21,12 @@ router.get('/favorites', recordsControllers.getFavorite, (req, res) => {
     res.status(200).send(res.locals.favorites)
 })
 
-router.post('/favorites/:master_id', recordsControllers.saveFavorite, (req, res) => {
-    res.status(200).send(res.locals.favoriteRecord)
+router.post('/favorites/', recordsControllers.saveFavorite, (req, res) => {
+    res.status(200).send('success')
+})
+
+router.delete('/favorites/', recordsControllers.deleteFavorite, (req, res) => {
+    res.status(200).send('success')
 })
 
 

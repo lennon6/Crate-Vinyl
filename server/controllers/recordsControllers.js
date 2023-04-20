@@ -1,7 +1,7 @@
 // const { model } = require('mongoose');
 const models = require('../models/recordModels');
 const axios = require('axios');
-
+const { Favorite } = require('../models/recordModels');
 const recordsControllers  = {};
 
 recordsControllers.searchRecord = (req, res, next) => {
@@ -43,14 +43,14 @@ recordsControllers.searchRecord = (req, res, next) => {
 
 
   recordsControllers.saveFavorite = (req, res, next) => {
-    const favoritesList = [];
-    const { master_id, genre, artist, release_title, year, track } = req.body;
-    console.log(req.body)
-    const favorite = new Favorite({master_id, genre, artist, release_title, year, track});
+
+    const { master_id, artist, release_title, image_URL } = req.body;
+    console.log('Req body', req.body)
+    const favorite = new Favorite({master_id, artist, release_title, image_URL});
       favorite.save()
       .then(result => {
-        favoritesList.push(result)
-        next();
+        res.locals.favoriteRecord = result;
+        return next();
       })
       .catch(error => {
         return next({
@@ -61,11 +61,23 @@ recordsControllers.searchRecord = (req, res, next) => {
     });
   };
   
+  recordsControllers.deleteFavorite = (req, res, next) => {
+    const { master_id } = req.body;
+    models.Favorite.findOneAndDelete({master_id})
+      .then(() => {
+        console.log('Successful deletion');
+        return next();
+      })
+      .catch(err => {
+        console.log('error deleting favorite', err);
+       return next(err);
+      });
+};
+
 
   recordsControllers.getFavorite = (req, res, next) => {
     models.Favorite.find({})
     .then(data => {
-        console.log(data);
         res.locals.favorites = data;
         return next();
     })

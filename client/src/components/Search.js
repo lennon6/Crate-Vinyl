@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Records from './Records';
+import { NavBar } from './NavBar';
+import { RecordCards } from './RecordCards';
 
 const Search = () => {
 
@@ -14,14 +18,11 @@ const Search = () => {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log('APIData:', data.records);
-      setAPIData(data.records);
-      setFilteredResults(data.records);
+      console.log(data)
+      setAPIData(data.results);
+      setFilteredResults(data.results);
     })
   }, [searchInput]);
-
-  console.log('APIData', APIData);
-  console.log('filteredResults:', filteredResults);
 
 
   const searchRecords = (searchValue) => {
@@ -35,30 +36,50 @@ const Search = () => {
       })
       .then((response) => response.json())
       .then((data) => {
-        setFilteredResults(data.records)
+        setFilteredResults(data.results)
       })
     } else {
       setFilteredResults(APIData)
     }
   }
 
+  const handleImageError = (index) => {
+    setFilteredResults(filteredResults.filter((item, i) => i !== index));
+  }
+  
 console.log('filteredResults', filteredResults)
 
 return (
-  <div>
+  <div className="container">
+    <NavBar/>
     <input value={searchInput} onChange={(e) => searchRecords(e.target.value)} />
-    {filteredResults && (
-      <ul>
-        {filteredResults.map((item, index) => (
-          <li key={index}>{item.release_title}</li>
-        ))}
-      </ul>
+    {searchInput.length > 0 && (
+      filteredResults.length > 0 ? (
+        <ul>
+          {filteredResults.map((item, index) => (
+            <li key={index}>
+              <RecordCards/>
+              <Link to={`/records/${item.master_id}`}>{item.title}
+                <div>{item.title}</div>
+                {item.cover_image ?
+                  <img src={item.cover_image} onError={() => handleImageError(index)} alt={item.title} /> :
+                  null
+                }
+                <div>{item.year}</div>
+                <div>{item.genre}</div>
+                </Link>
+              </li>
+          ))}
+        </ul>
+      ) : (
+        <div></div>
+      )
     )}
   </div>
 );
-
-
 }
+
+
 
 
 

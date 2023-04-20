@@ -17,11 +17,9 @@ mongoose.connect(MONGO_URI, {
 
 const favoriteSchema = new Schema({
     master_id: Number,
-    genre: String,
     artist: String,
     release_title: String,
-    year: String,
-    track: String,
+    image_URL: String,
 })
 
 const Favorite = mongoose.model('Favorite', favoriteSchema);
