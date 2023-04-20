@@ -11,11 +11,15 @@ export const RecordCards = ({record }) => {
     <div className='record-card'>
     <Link to={`/records/${record.master_id}`} className='no-underline'>
         <img className='record-card-img' src={record.image_URL}/>
-        <div>{record.release_title}</div>
+        <div className='record-info'>
+        <div className='record-card-title'>{record.release_title}</div>
         <div>{record.artist}</div>
         <Ratings/>
+        </div>
     </Link>
     </div>
 
   )
 }
+
+

@@ -25,10 +25,13 @@ export const Favorites = () => {
   return (
     <div className="container">
     <NavBar/>
+    <div className='record-cards-div'>
+        <h2>My favorites</h2>
     <div className="record-cards">
     {favorite && favorite.map((record, index) => (
        <RecordCards key={index} record={record}/>
     ))}
+     </div>
      </div>
   </div>
   )

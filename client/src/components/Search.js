@@ -2,87 +2,77 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Records from './Records';
 import { NavBar } from './NavBar';
-import { RecordCards } from './RecordCards';
+import SearchCards from './SearchCards';
 
 const Search = () => {
-
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [ searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchInput !== '') {
+      fetch(`http://localhost:3000/search?release_title=${searchInput}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          const filteredData = data.results.filter((item, index, arr) => {
+            return arr.findIndex((t) => t.master_id === item.master_id) === index;
+          });
+          setAPIData(filteredData);
+          setFilteredResults(filteredData);
+        });
+    } else if (APIData.length > 0) {
+      setFilteredResults(APIData);
+    }
+  };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/search?release_title=${searchInput}`, {
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-      setAPIData(data.results);
-      setFilteredResults(data.results);
-    })
-  }, [searchInput]);
-
-
-  const searchRecords = (searchValue) => {
-    console.log('search value:', searchValue);
-    setSearchInput(searchValue);
-    if (searchValue !== '') {
-      fetch(`http://localhost:3000/search?release_title=${searchValue}`, {
-        headers: {
-          "Content-Type": "application/json",
-        }
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        setFilteredResults(data.results)
-      })
-    } else {
-      setFilteredResults(APIData)
-    }
-  }
+    setFilteredResults(APIData);
+  }, [APIData]);
 
   const handleImageError = (index) => {
     setFilteredResults(filteredResults.filter((item, i) => i !== index));
-  }
-  
-console.log('filteredResults', filteredResults)
+  };
 
-return (
-  <div className="container">
-    <NavBar/>
-    <input value={searchInput} onChange={(e) => searchRecords(e.target.value)} />
-    {searchInput.length > 0 && (
-      filteredResults.length > 0 ? (
-        <ul>
-          {filteredResults.map((item, index) => (
-            <li key={index}>
-              <RecordCards/>
-              <Link to={`/records/${item.master_id}`}>{item.title}
-                <div>{item.title}</div>
-                {item.cover_image ?
-                  <img src={item.cover_image} onError={() => handleImageError(index)} alt={item.title} /> :
-                  null
-                }
-                <div>{item.year}</div>
-                <div>{item.genre}</div>
-                </Link>
-              </li>
-          ))}
-        </ul>
-      ) : (
-        <div></div>
-      )
-    )}
-  </div>
-);
-}
+  return (
+    <div className="container">
+      <NavBar />
+      <div className='search-cards-container'>
+      <div className='search-cards-div'>
+        <h2>Search</h2>
+      <form onSubmit={handleSearch}>
+        <input
+          value={searchInput}
+          className="search-bar"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch(e);
+            }
+          }}
+          onChange={(e) => setSearchInput(e.target.value)}
+        />
+        <button type="submit" className='search-button'>Search</button>
+      </form>
+      </div>
+      </div>
+      {searchInput.length > 0 && (
+        <div className="record-cards">
+          {filteredResults.length > 0 ? (
+            filteredResults.map((item, index) => (
+              <SearchCards key={index} record={item} />
+            ))
+          ) : (
+            <div></div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
-
-
-
-
-
-
-export default Search
+export default Search;

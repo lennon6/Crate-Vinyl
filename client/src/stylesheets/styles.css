@@ -17,7 +17,7 @@ body {
 .nav-bar-right {
     display: flex;
     flex-direction: row;
-    margin-right: 65px;
+    margin-right: 94px;
 }
 
 .nav-bar-right h2 {
@@ -149,10 +149,19 @@ body {
     height: 20px;
 }
 
+.record-cards-div {
+    display: flex;
+    margin-top: 68px;
+    flex-direction: column;
+}
+
+.record-cards-div h2 {
+    font-size: 2rem;
+}
 .record-card {
     display: flex;
     flex-basis: 31.33%;
-    margin: 10px;
+    margin: 10px 10px 100px 0;
 }
 
 .record-cards {
@@ -165,4 +174,51 @@ body {
     height: 256px;
     width: 256px;
 
+}
+
+.record-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.record-card-title {
+    margin-bottom: 10px;
+}
+
+
+.search-bar {
+    border-radius: 20px;
+    background-color: #6a6a6a;
+    width: 150px;
+    padding: 10px;
+    border-width: 0;
+    outline: none;
+    color: white;
+}
+
+
+.record-card-year {
+    margin-bottom: 10px
+}
+
+.search-button {
+    display: none;
+}
+
+.search-cards-div {
+    display: flex;
+    margin-top: 68px;
+    flex-direction: column;
+}
+
+.search-cards-div h2 {
+    font-size: 2rem;
+}
+
+.search-cards-container {
+    width: 1000px;
+    margin-bottom: 50px;
 }
