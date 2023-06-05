@@ -12,6 +12,7 @@ body {
     justify-content: space-between;
     flex-wrap: wrap;
     width: 1000px;
+    margin-top: 30px;
 }
 
 .nav-bar-right {
@@ -153,6 +154,7 @@ body {
     display: flex;
     margin-top: 68px;
     flex-direction: column;
+    margin-bottom: -60px;
 }
 
 .record-cards-div h2 {
@@ -192,7 +194,7 @@ body {
 .search-bar {
     border-radius: 20px;
     background-color: #6a6a6a;
-    width: 150px;
+    width: 200px;
     padding: 10px;
     border-width: 0;
     outline: none;
@@ -216,6 +218,7 @@ body {
 
 .search-cards-div h2 {
     font-size: 2rem;
+    margin-left: 5px;
 }
 
 .search-cards-container {

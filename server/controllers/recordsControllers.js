@@ -2,7 +2,9 @@
 const models = require('../models/recordModels');
 const axios = require('axios');
 const { Favorite } = require('../models/recordModels');
+const { Review } = require('../models/recordModels')
 const recordsControllers  = {};
+
 
 recordsControllers.searchRecord = (req, res, next) => {
     const { artist_id, genre, artist, release_title, year, track } = req.query;
@@ -45,7 +47,6 @@ recordsControllers.searchRecord = (req, res, next) => {
   recordsControllers.saveFavorite = (req, res, next) => {
 
     const { master_id, artist, release_title, image_URL } = req.body;
-    console.log('Req body', req.body)
     const favorite = new Favorite({master_id, artist, release_title, image_URL});
       favorite.save()
       .then(result => {
@@ -62,7 +63,7 @@ recordsControllers.searchRecord = (req, res, next) => {
   };
   
   recordsControllers.deleteFavorite = (req, res, next) => {
-    const { master_id } = req.body;
+    const { master_id } = req.params;
     models.Favorite.findOneAndDelete({master_id})
       .then(() => {
         console.log('Successful deletion');
@@ -83,7 +84,40 @@ recordsControllers.searchRecord = (req, res, next) => {
     })
   };
   
+//   recordsControllers.postReview = (req, res, next) => {
+//     // console.log('req body', req.body)
+//     const { master_id, comment } = req.body;
+//     const review = new Review({master_id, comment});
+//       review.save()
+//       .then(result => {
+//         res.locals.review = result;
+//         return next();
+//       })
+//       .catch(error => {
+//         return next({
+//             log: 'Error saving review',
+//             message: { error },
+//             status: 400,
+//         })
+//       })
+//   }
   
+
+//   recordsControllers.getReview = (req, res, next) => {
+//     const { master_id } = req.params;
+//     models.Review.find({master_id: master_id})
+//       .then(reviews => {
+//         res.locals.review = reviews;
+//         return next();
+//       })
+//         .catch(error => {
+//             return next({
+//                 log: 'Error retrieving review',
+//                 message: { error },
+//                 status: 400,
+//             })
+//           })
+//       }
 
 
 module.exports = recordsControllers;

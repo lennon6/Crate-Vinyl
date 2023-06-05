@@ -44,7 +44,7 @@ const Search = () => {
       <NavBar />
       <div className='search-cards-container'>
       <div className='search-cards-div'>
-        <h2>Search</h2>
+        <h2>Search For Records</h2>
       <form onSubmit={handleSearch}>
         <input
           value={searchInput}

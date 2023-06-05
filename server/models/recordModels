@@ -26,8 +26,8 @@ const Favorite = mongoose.model('Favorite', favoriteSchema);
 
 // sets a schema for 'review' collection
 const reviewSchema = new Schema({
-    user: String,
-    comment: String
+    comment: String,
+    master_id: Number,
 })
 
 const Review = mongoose.model('Review', reviewSchema);

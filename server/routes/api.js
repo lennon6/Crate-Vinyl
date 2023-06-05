@@ -16,6 +16,14 @@ router.get('/records/:master_id', recordsControllers.getRecord, (req, res) => {
     res.status(200).send(res.locals.singleRecordData)
 })
 
+// router.post('/records/:master_id/reviews', recordsControllers.postReview, (req, res) => {
+//     res.status(200).send(res.locals.review)
+// })
+
+// router.get('/records/:master_id/reviews', recordsControllers.getReview, (req, res) => {
+//     res.status(200).send(res.locals.reviews);
+// });
+
 
 router.get('/favorites', recordsControllers.getFavorite, (req, res) => {
     res.status(200).send(res.locals.favorites)
@@ -29,23 +37,6 @@ router.delete('/favorites/', recordsControllers.deleteFavorite, (req, res) => {
     res.status(200).send('success')
 })
 
-
-
-// router.get('/getAll', (req, res) => {
-//     res.send('Get All API')
-// })
-
-// router.get('/getOne/:id', (req, res) => {
-//     res.send('Get by ID API')
-// })
-
-// router.patch('/update/:id', (req, res) => {
-//     res.send('Update by ID API')
-// })
-
-// router.delete('/delete/:id', (req, res) => { 
-//     res.send('Delete by ID API')
-// })
 
 module.exports = router;
 
