@@ -15,7 +15,7 @@ app.use(cors());
 // handle request for static files
 app.use(express.static(path.join(__dirname, 'build')));
 
-// handle parsing
+// handle parsing ok
 app.use(express.json());
 
 //define router handlers
