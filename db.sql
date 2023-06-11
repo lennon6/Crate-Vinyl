@@ -32,5 +32,7 @@ CREATE TABLE reviews (
     "_id" serial NOT NULL,
     "master_id" int NOT NULL,
     "comment" varchar NOT NULL,
+    "user_id" int NOT NULL,
     CONSTRAINT "reviews_pk" PRIMARY KEY("_id")
+    CONSTRAINT "users_fk" FOREIGN KEY ("user_id") REFERENCES users ("_id")
 )

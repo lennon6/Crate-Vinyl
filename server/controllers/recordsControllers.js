@@ -1,13 +1,13 @@
-// const { model } = require('mongoose');
-const models = require('../models/recordModels');
+
 const axios = require('axios');
-const { Favorite } = require('../models/recordModels');
-const { Review } = require('../models/recordModels')
+const db = require('../models/poolsModels');
 const recordsControllers  = {};
 
 
+// middleware for searching record through discogs API
+
 recordsControllers.searchRecord = (req, res, next) => {
-    const { artist_id, genre, artist, release_title, year, track } = req.query;
+    const { release_title } = req.query;
     axios.get('https://api.discogs.com/database/search', {
         params: {
           q: release_title,
@@ -22,6 +22,8 @@ recordsControllers.searchRecord = (req, res, next) => {
           res.status(500).send(error);
       })
   }
+
+  // middleware for getting an individual record
 
   recordsControllers.getRecord = (req, res, next) => {
     const { master_id } = req.params;
@@ -43,46 +45,59 @@ recordsControllers.searchRecord = (req, res, next) => {
       });
   };
 
+  // middleware for getting user's favorite records
 
-  recordsControllers.saveFavorite = (req, res, next) => {
-
-    const { master_id, artist, release_title, image_URL } = req.body;
-    const favorite = new Favorite({master_id, artist, release_title, image_URL});
-      favorite.save()
-      .then(result => {
-        res.locals.favoriteRecord = result;
-        return next();
-      })
-      .catch(error => {
-        return next({
-            log: 'Error saving record info',
-            message: { error },
-            status: 400,
+  recordsControllers.getFavorites = async (req, res, next) => {
+    try {
+      const { user_id } = req.params;
+      const sqlGetQuery = `SELECT * FROM favorites WHERE user_id = ${user_id}`;
+      const result = await db.query(sqlGetQuery);
+      res.locals.favorites = result.rows[0];
+      return next();
+    } catch(err) {
+      return next({
+        log: 'error',
+        message: { err: 'Error in getting favorites'}
       });
-    });
-  };
+    }
+  }
   
-  recordsControllers.deleteFavorite = (req, res, next) => {
-    const { master_id } = req.params;
-    models.Favorite.findOneAndDelete({master_id})
-      .then(() => {
-        console.log('Successful deletion');
-        return next();
-      })
-      .catch(err => {
-        console.log('error deleting favorite', err);
-       return next(err);
+  // middleware for saving a record
+
+  recordsControllers.saveFavorite = async (req, res, next) => {
+    try {
+      const { master_id, artist, release_title, image_url, user_id } = req.body;
+      const sqlAddQuery = `INSERT INTO favorites(master_id, artist, release_title, image_url, user_id) VALUES ('${master_id}', '${artist}', '${release_title}', '${image_url}', '${user_id}')`;
+      const result = await db.query(sqlAddQuery);
+      console.log('result', result.rows[0]);
+      res.locals.favoriteRecord = result.rows[0]
+      return next();
+    } catch(err) {
+        return next({
+          log: 'error',
+          message: { err: 'Error in saving favorite'}
+        });
+     }
+  }
+  
+  // middleware for deleting a favorite 
+
+  recordsControllers.deleteFavorite = async (req, res, next) => {
+    try {
+      const { _id } = req.body;
+      const sqlDeleteQuery = `DELETE FROM favorites WHERE _id = ${_id}`;
+      const result = await db.query(sqlDeleteQuery);
+      return next();
+    } catch(err) {
+      return next({
+        log: 'error',
+        message: { err: 'Error in deleting favorite'}
       });
+    }
+  
 };
 
 
-  recordsControllers.getFavorite = (req, res, next) => {
-    models.Favorite.find({})
-    .then(data => {
-        res.locals.favorites = data;
-        return next();
-    })
-  };
   
 //   recordsControllers.postReview = (req, res, next) => {
 //     // console.log('req body', req.body)
