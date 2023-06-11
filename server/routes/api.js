@@ -2,9 +2,17 @@ const express = require('express');
 const router = express.Router();
 const recordsControllers = require('../controllers/recordsControllers.js');
 const reviewsControllers = require('../controllers/reviewsControllers.js');
+const loginController = require('../controllers/usersControllers.js')
 
+// once the frontend is working, redirect the user to the main page on successful request
+router.post('/signup', loginController.createUser, (req, res) => {
+    res.status(200).send('success');
+})
 
-
+// once the frontend is working, redirect the user to the main page on successful request
+router.get('/login', loginController.verifyUser, (req, res) => {
+    res.status(200).send('user verified');
+})
 
 
 router.get('/search', recordsControllers.searchRecord, (req, res) => {
