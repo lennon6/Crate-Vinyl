@@ -52,7 +52,7 @@ recordsControllers.searchRecord = (req, res, next) => {
       const { user_id } = req.params;
       const sqlGetQuery = `SELECT * FROM favorites WHERE user_id = ${user_id}`;
       const result = await db.query(sqlGetQuery);
-      res.locals.favorites = result.rows[0];
+      res.locals.favorites = result.rows;
       return next();
     } catch(err) {
       return next({
@@ -69,7 +69,6 @@ recordsControllers.searchRecord = (req, res, next) => {
       const { master_id, artist, release_title, image_url, user_id } = req.body;
       const sqlAddQuery = `INSERT INTO favorites(master_id, artist, release_title, image_url, user_id) VALUES ('${master_id}', '${artist}', '${release_title}', '${image_url}', '${user_id}')`;
       const result = await db.query(sqlAddQuery);
-      console.log('result', result.rows[0]);
       res.locals.favoriteRecord = result.rows[0]
       return next();
     } catch(err) {
@@ -97,42 +96,6 @@ recordsControllers.searchRecord = (req, res, next) => {
   
 };
 
-
-  
-//   recordsControllers.postReview = (req, res, next) => {
-//     // console.log('req body', req.body)
-//     const { master_id, comment } = req.body;
-//     const review = new Review({master_id, comment});
-//       review.save()
-//       .then(result => {
-//         res.locals.review = result;
-//         return next();
-//       })
-//       .catch(error => {
-//         return next({
-//             log: 'Error saving review',
-//             message: { error },
-//             status: 400,
-//         })
-//       })
-//   }
-  
-
-//   recordsControllers.getReview = (req, res, next) => {
-//     const { master_id } = req.params;
-//     models.Review.find({master_id: master_id})
-//       .then(reviews => {
-//         res.locals.review = reviews;
-//         return next();
-//       })
-//         .catch(error => {
-//             return next({
-//                 log: 'Error retrieving review',
-//                 message: { error },
-//                 status: 400,
-//             })
-//           })
-//       }
 
 
 module.exports = recordsControllers;

@@ -6,7 +6,7 @@ export const AddToFavorites = ({ record }) => {
   useEffect(() => {
     const fetchFavorite = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/favorites/${record.id}`);
+        const response = await fetch(`http://localhost:3000/favorites/1/`);
         const data = await response.json();
         setIsFavorite(data.isFavorite);
       } catch (error) {
@@ -19,14 +19,14 @@ export const AddToFavorites = ({ record }) => {
   const handleFavoriteClick = async () => {
     try {
       if (isFavorite) {
-        await fetch(`http://localhost:3000/favorites/${record.id}`, {
+        await fetch(`http://localhost:3000/favorites/`, {
           method: 'DELETE',
         });
         setIsFavorite(false);
         localStorage.setItem(`favorite_${record.id}`, 'false'); // Save favorite status to localStorage
         console.log('Favorite removed successfully');
       } else {
-        await fetch('http://localhost:3000/favorites', {
+        await fetch('http://localhost:3000/favorites/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -35,7 +35,8 @@ export const AddToFavorites = ({ record }) => {
             master_id: record.id,
             artist: record.artists[0].name,
             release_title: record.title,
-            image_URL: record.images[0].uri,
+            image_url: record.images[0].uri,
+            user_id: 1
           }),
         });
         setIsFavorite(true);
