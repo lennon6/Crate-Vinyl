@@ -41,9 +41,9 @@ router.post('/favorites/', recordsControllers.saveFavorite, (req, res) => {
     res.status(200).send('success');
 })
 
-router.delete('/favorites/', recordsControllers.deleteFavorite, (req, res) => {
+router.delete('/favorites/:id', recordsControllers.deleteFavorite, (req, res) => {
     res.status(200).send('success');
-})
+  });
 
 
 module.exports = router;

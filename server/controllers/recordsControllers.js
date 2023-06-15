@@ -83,8 +83,8 @@ recordsControllers.searchRecord = (req, res, next) => {
 
   recordsControllers.deleteFavorite = async (req, res, next) => {
     try {
-      const { _id } = req.body;
-      const sqlDeleteQuery = `DELETE FROM favorites WHERE _id = ${_id}`;
+      const { id } = req.params; // Access the favorite ID from the URL
+      const sqlDeleteQuery = `DELETE FROM favorites WHERE _id = ${id}`;
       const result = await db.query(sqlDeleteQuery);
       return next();
     } catch(err) {
@@ -93,9 +93,7 @@ recordsControllers.searchRecord = (req, res, next) => {
         message: { err: 'Error in deleting favorite'}
       });
     }
-  
-};
-
+  };
 
 
 module.exports = recordsControllers;
