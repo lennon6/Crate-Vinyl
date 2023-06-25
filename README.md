@@ -1,3 +1,5 @@
+<p align="center"><img src="./crate-vinyl.png" alt="better-weather-logo" height="220"/></p>
+
 # Crate & Vinyl
 
 Crate &amp; Vinyl is a personalized music discovery platform for vinyl lovers.
