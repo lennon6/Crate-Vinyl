@@ -6,7 +6,6 @@ import Home from './Home';
 import { Favorites } from './Favorites';
 import { Login } from './Login';
 import { Signup } from './Signup';
-import '../stylesheets/styles.css';
 
 function App() {
   return (
