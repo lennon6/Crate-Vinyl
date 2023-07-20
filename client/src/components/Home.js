@@ -5,13 +5,14 @@ import newReleases from './newReleases.json';
 import popularRecords from './popularRecords.json'
 import { RecordCards } from './RecordCards';
 
+
 const Home = () => {
 
     return (
         <div className="container">
             <NavBar />
             <div className='record-cards-div'>
-              <h2>Popular Records</h2>
+              <h2 className="text-blue text-4xl">Popular Records</h2>
             <div className="record-cards">
                {popularRecords.results.map((record, index) => (
                 <RecordCards key={index} record={record}/>
